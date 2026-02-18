@@ -1,173 +1,95 @@
+<!--
+Copyright (C) 2023-2025 anonymous
+
+This file is part of PSFree.
+
+PSFree is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+PSFree is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>مكتب اسامة KM - PSFree 9.00</title>
+  <meta charset="UTF-8">
+  <title>PSFree - Lapse Exploit for 9.00</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+    body {
+      background: linear-gradient(to bottom right, #063FAB, #01258A);
+      background-image: url('icon0.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
 
-body{
-  font-family: 'Segoe UI', Tahoma, sans-serif;
-  background: #0c0f18;
-  color:#ffffff;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+    @font-face {
+      font-family: 'logging';
+      src: url('fonts/LiberationMono-Regular.ttf');
+    }
 
-/* إطار خارجي */
-.wrapper{
-  width:95%;
-  max-width:800px;
-  background:#111522;
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
-  border:1px solid #1f2535;
-}
+    .card {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 700px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
 
-/* الهيدر */
-.header{
-  background:linear-gradient(90deg,#0f5fff,#00b3ff);
-  padding:25px;
-  text-align:center;
-}
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
 
-.header h1{
-  font-size:26px;
-  letter-spacing:1px;
-}
-
-.header p{
-  font-size:14px;
-  opacity:0.9;
-}
-
-/* المحتوى */
-.content{
-  padding:30px;
-}
-
-/* ستاتس */
-.status-container{
-  margin-bottom:20px;
-}
-
-.status-label{
-  font-size:14px;
-  margin-bottom:8px;
-  opacity:0.7;
-}
-
-.status-bar{
-  width:100%;
-  height:45px;
-  background:#1a1f2e;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  padding:0 15px;
-  font-weight:bold;
-  font-size:15px;
-  border:1px solid #2a3247;
-  transition:0.3s;
-}
-
-.status-bar.ready{
-  color:#00ffcc;
-}
-
-.status-bar.loading{
-  color:#00b3ff;
-}
-
-.status-bar.error{
-  color:#ff4d4d;
-}
-
-/* الكونسول */
-#console{
-  background:#0d111a;
-  border-radius:12px;
-  padding:20px;
-  height:260px;
-  overflow-y:auto;
-  font-family:monospace;
-  font-size:15px;
-  border:1px solid #1f2535;
-  white-space:pre-wrap;
-  text-align:left;
-}
-
-/* الفوتر */
-.footer{
-  text-align:center;
-  padding:18px;
-  background:#0f1320;
-  font-size:14px;
-  color:#9aa3c0;
-  border-top:1px solid #1f2535;
-}
-</style>
+    #console {
+      font-family: 'logging', monospace;
+      font-size: 18px;
+      text-align: left;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      height: 300px;
+      overflow-y: auto;
+    }
+  </style>
 </head>
-
 <body>
+  <script>
+    if (window.applicationCache.status === 0) {
+      window.location.replace("cache.html");
+    }
+  </script>
 
-<script>
-if (window.applicationCache && window.applicationCache.status === 0) {
-  window.location.replace("cache.html");
-}
-</script>
-
-<div class="wrapper">
-
-  <div class="header">
-    <h1>مكتب اسامة KM</h1>
-    <p>PSFree - Lapse Exploit Firmware 9.00</p>
-  </div>
-
-  <div class="content">
-
-    <div class="status-container">
-      <div class="status-label">حالة التنفيذ</div>
-      <div id="statusBar" class="status-bar ready">
-        جاهز لبدء الاستغلال...
-      </div>
-    </div>
-
+  <div class="card">
+    <h1>PSFree - Lapse Exploit for Firmware 9.00</h1>
     <pre id="console"></pre>
-
   </div>
 
-  <div class="footer">
-    مكتب اسامة km<br>
-    ناصريه حبوبي شارع الجمهوري
-  </div>
-
-</div>
-
-<script>
-const statusBar = document.getElementById("statusBar");
-
-window.addEventListener("load", () => {
-  statusBar.className = "status-bar loading";
-  statusBar.innerText = "جاري تحميل الاستغلال...";
-});
-
-window.addEventListener("error", () => {
-  statusBar.className = "status-bar error";
-  statusBar.innerText = "حدث خطأ أثناء التنفيذ";
-});
-</script>
-
-<script src="payload.js"></script>
-<script type="module" src="./alert.mjs"></script>
-
+  <script src="payload.js"></script>
+  <script type="module" src="./alert.mjs"></script>
 </body>
 </html>
